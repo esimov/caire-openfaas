@@ -37,24 +37,24 @@ import (
 	"time"
 )
 
-type options struct {
-	input          string `json:"input"`
-	width          int    `json:width`
-	height         int    `json:height`
-	percentage     bool   `json:perc,string`
-	square         bool   `json:square,string`
-	scale          bool   `json:scale,string`
-	debug          bool   `json:debug,string`
-	blur           int    `json:blur`
-	sobelThreshold int    `json:sobel`
-	useFace        bool   `json:face,string`
-	classifier     string `json:cascade`
+type Options struct {
+	Input          string `json:"input"`
+	Width          int    `json:"width"`
+	Height         int    `json:"height"`
+	Percentage     bool   `json:"perc,string"`
+	Square         bool   `json:"square,string"`
+	Scale          bool   `json:"scale,string"`
+	Debug          bool   `json:"debug,string"`
+	Blur           int    `json:"blur"`
+	SobelThreshold int    `json:"sobel"`
+	UseFace        bool   `json:"face,string"`
+	Classifier     string `json:"cascade"`
 }
 
 // Handle a serverless request
 func Handle(req []byte) string {
 	var (
-		options options
+		options Options
 		data    []byte
 		image   []byte
 	)
@@ -62,7 +62,7 @@ func Handle(req []byte) string {
 	json.Unmarshal(req, &options)
 
 	if val, exists := os.LookupEnv("input_mode"); exists && val == "url" {
-		inputURL := strings.TrimSpace(options.input)
+		inputURL := strings.TrimSpace(options.Input)
 
 		res, err := http.Get(inputURL)
 		if err != nil {
@@ -109,16 +109,21 @@ func Handle(req []byte) string {
 
 	if output == "image" || output == "json_image" {
 		p := &caire.Processor{
-			BlurRadius:     options.blur,
-			SobelThreshold: options.sobelThreshold,
-			NewWidth:       options.width,
-			NewHeight:      options.height,
-			Percentage:     options.percentage,
-			Square:         options.square,
-			Debug:          options.debug,
-			Scale:          options.scale,
-			FaceDetect:     options.useFace,
-			Classifier:     options.classifier,
+			BlurRadius:     options.Blur,
+			SobelThreshold: options.SobelThreshold,
+			NewWidth:       options.Width,
+			NewHeight:      options.Height,
+			Percentage:     options.Percentage,
+			Square:         options.Square,
+			Debug:          options.Debug,
+			Scale:          options.Scale,
+			FaceDetect:     options.UseFace,
+			Classifier:     options.Classifier,
+		}
+
+		input, err := os.Open(tmpfile.Name())
+		if err != nil {
+			return fmt.Sprintf("Unable to open the temporary image file: %v", err)
 		}
 
 		filename := fmt.Sprintf("/tmp/%d.jpg", time.Now().UnixNano())
@@ -129,7 +134,10 @@ func Handle(req []byte) string {
 		}
 		defer os.Remove(filename)
 
-		p.Process(options.input, output)
+		err = p.Process(input, output)
+		if err != nil {
+			return fmt.Sprintf("Error on resize process: %v", err)
+		}
 
 		image, err = ioutil.ReadFile(filename)
 		if err != nil {
