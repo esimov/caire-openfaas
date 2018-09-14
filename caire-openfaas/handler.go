@@ -37,6 +37,7 @@ import (
 	"time"
 )
 
+// Options struct contains the resize options defined in the json object.
 type Options struct {
 	Input          string `json:"input"`
 	Width          int    `json:"width"`
@@ -59,11 +60,13 @@ func Handle(req []byte) string {
 		image   []byte
 	)
 
+	// Decode json
 	json.Unmarshal(req, &options)
 
 	if val, exists := os.LookupEnv("input_mode"); exists && val == "url" {
 		inputURL := strings.TrimSpace(options.Input)
 
+		// Retrieve the url and decode the response body.
 		res, err := http.Get(inputURL)
 		if err != nil {
 			return fmt.Sprintf("Unable to download image file from URI: %s, status %v", inputURL, res.Status)
@@ -92,6 +95,7 @@ func Handle(req []byte) string {
 	}
 	defer os.Remove(tmpfile.Name())
 
+	// Copy the image binary data into the temporary file.
 	_, err = io.Copy(tmpfile, bytes.NewBuffer(data))
 	if err != nil {
 		return fmt.Sprintf("Unable to copy the source URI to the destionation file")
@@ -134,16 +138,17 @@ func Handle(req []byte) string {
 		}
 		defer os.Remove(filename)
 
+		// A single line to rescale the image.
 		err = p.Process(input, output)
 		if err != nil {
 			return fmt.Sprintf("Error on resize process: %v", err)
 		}
 
+		// Retrieve the resized image.
 		image, err = ioutil.ReadFile(filename)
 		if err != nil {
 			return fmt.Sprintf("Unable to read the resized image: %v", err)
 		}
 	}
-
 	return string(image)
 }
