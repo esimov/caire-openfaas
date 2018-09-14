@@ -3,7 +3,10 @@ provider:
   gateway: http://127.0.0.1:8080
 
 functions:
-  caire-openfaas:
+  caire-image-resizer:
     lang: go
     handler: ./caire-openfaas
     image: caire-openfaas:0.1
+    environment:
+          input_mode: "url"
+          output_mode: "image"
