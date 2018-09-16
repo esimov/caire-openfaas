@@ -27,7 +27,7 @@ Once the function has been deployed you can access the UI on the url defined in 
 
 You have to provide each option parameter as a `JSON` string, defined in the UI `Request Body` section. The json should have the structure of the following form:
 
-```json
+```
 {
 	"input":"https://user-images.githubusercontent.com/883386/37569642-0c5f49e8-2aee-11e8-8ac1-d096c0387ca0.jpg", 
 	"width":20,
