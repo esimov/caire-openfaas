@@ -20,6 +20,9 @@ $ faas-cli build -f stack.yml --gateway=http://<GATEWAY-IP>
 $ faas-cli deploy -f stack.yml --gateway=http://<GATEWAY-IP>
 ```
 
+![sample-screen](https://user-images.githubusercontent.com/883386/45596764-ec5ec900-b9c9-11e8-8b01-8f84f78b327e.png)
+
+
 Once the function has been deployed you can access the UI on the url defined in `--gateway` parameter.
 
 You have to provide each option parameter as a `JSON` string, defined in the UI `Request Body` section. The json should have the structure of the following form:
@@ -54,7 +57,7 @@ Below are the supported commands:
 
 **Note:** all the boolean type option should be defined as string.
 
-#### Results
+### Results
 
 | Original | Shrunk |
 | --- | --- |
