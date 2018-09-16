@@ -49,7 +49,6 @@ type Options struct {
 	Blur           int    `json:"blur"`
 	SobelThreshold int    `json:"sobel"`
 	UseFace        bool   `json:"face,string"`
-	Classifier     string `json:"cascade"`
 }
 
 // Handle a serverless request
@@ -122,7 +121,7 @@ func Handle(req []byte) string {
 			Debug:          options.Debug,
 			Scale:          options.Scale,
 			FaceDetect:     options.UseFace,
-			Classifier:     options.Classifier,
+			Classifier:     "./data/facefinder",
 		}
 
 		input, err := os.Open(tmpfile.Name())
