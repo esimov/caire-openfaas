@@ -35,7 +35,6 @@ You have to provide each option parameter as a `JSON` string, defined in the UI 
 	"perc":"true",
 	"scale":"false",
 	"face":"true"
-	"classifier":"./data/facefinder"
 }
 ```
 For more details about the supported options check the project page: https://github.com/esimov/caire. 
