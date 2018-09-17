@@ -1,6 +1,6 @@
 # caire-openfaas
 
-This is an [OpenFaaS](https://github.com/openfaas/faas) function for [Caire](https://github.com/esimov/caire), the content aware image resize library. This function facilitates to run the library without the need to have it installed locally. 
+This is an [OpenFaaS](https://github.com/openfaas/faas) function for [Caire](https://github.com/esimov/caire) content aware image resize library. This function facilitates to run the library without the need to have it installed locally. 
 
 ### Usage
 To run the function locally you have to make sure OpenFaaS is up and running. Follow the official documentation for more details. https://docs.openfaas.com/
@@ -25,7 +25,7 @@ $ faas-cli deploy -f stack.yml --gateway=http://<GATEWAY-IP>
 
 Once the function has been deployed you can access the UI on the url defined in `--gateway` parameter.
 
-You have to provide each option parameter as a `JSON` string, defined in the UI `Request Body` section. The json should have the structure of the following form:
+You have to provide each option parameter as a `JSON` string, defined in the UI `Request Body` section. The `json` should have the structure of the following form:
 
 ```
 {
@@ -38,7 +38,7 @@ You have to provide each option parameter as a `JSON` string, defined in the UI 
 	"classifier":"./data/facefinder"
 }
 ```
-For more details about the supported operations check the project page: https://github.com/esimov/caire. 
+For more details about the supported options check the project page: https://github.com/esimov/caire. 
 
 Below are the supported commands:
 
@@ -55,7 +55,7 @@ Below are the supported commands:
 | `sobel` | int | Sobel filter threshold |
 | `face` | false | Use face detection |
 
-**Note:** all the boolean type option should be defined as string.
+***Note:** all the boolean type option should be defined as string.*
 
 ### Results
 
