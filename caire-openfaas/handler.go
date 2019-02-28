@@ -27,7 +27,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/esimov/caire"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -35,6 +34,8 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/esimov/caire"
 )
 
 // Options struct contains the resize options defined in the json object.
