@@ -90,7 +90,7 @@ func (c *Carver) ComputeSeams(img *image.NRGBA, p *Processor) []float64 {
 
 	if p.FaceDetect {
 		if len(p.Classifier) == 0 {
-			log.Fatal("Please provide an xml face classifier!")
+			log.Fatal("Please provide a face classifier file!")
 		}
 
 		cascadeFile, err := ioutil.ReadFile(p.Classifier)
@@ -120,13 +120,13 @@ func (c *Carver) ComputeSeams(img *image.NRGBA, p *Processor) []float64 {
 			MaxSize:     int(math.Max(float64(cols), float64(rows))),
 			ShiftFactor: 0.1,
 			ScaleFactor: 1.1,
-		}
 
-		imgParams := pigo.ImageParams{
-			Pixels: pixels,
-			Rows:   rows,
-			Cols:   cols,
-			Dim:    cols,
+			ImageParams: pigo.ImageParams{
+				Pixels: pixels,
+				Rows:   rows,
+				Cols:   cols,
+				Dim:    cols,
+			},
 		}
 
 		pigo := pigo.NewPigo()
@@ -139,7 +139,7 @@ func (c *Carver) ComputeSeams(img *image.NRGBA, p *Processor) []float64 {
 
 		// Run the classifier over the obtained leaf nodes and return the detection results.
 		// The result contains quadruplets representing the row, column, scale and detection score.
-		faces := classifier.RunCascade(imgParams, cParams)
+		faces := classifier.RunCascade(cParams, p.FaceAngle)
 
 		// Calculate the intersection over union (IoU) of two clusters.
 		faces = classifier.ClusterDetections(faces, 0.2)

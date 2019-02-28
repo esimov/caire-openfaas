@@ -3,8 +3,8 @@
 [![Build Status](https://travis-ci.org/esimov/caire.svg?branch=master)](https://travis-ci.org/esimov/caire)
 [![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](https://godoc.org/github.com/esimov/caire)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat)](./LICENSE)
-[![release](https://img.shields.io/badge/release-v1.0.2-blue.svg)]()
-[![homebrew](https://img.shields.io/badge/homebrew-v1.0.2-orange.svg)]()
+[![release](https://img.shields.io/badge/release-v1.1.1-blue.svg)]()
+[![homebrew](https://img.shields.io/badge/homebrew-v1.1.1-orange.svg)]()
 
 **Caire** is a content aware image resize library based on *[Seam Carving for Content-Aware Image Resizing](https://inst.eecs.berkeley.edu/~cs194-26/fa16/hw/proj4-seamcarving/imret.pdf)* paper. 
 
@@ -38,19 +38,15 @@ Key features which differentiates from the other existing open source solutions:
 - [x] Support for proportional scaling
 - [x] Face detection to avoid face deformation
 
-## Update
+## Face detection
 
-The library now supports face detection via https://gocv.io/, which is a Go binding for OpenCV 3. This means you need to install OpenCV 3 prior using this feature, otherwise check `gocv` documentation for the steps needed to install OpenCV 3.4.
+The library is capable detecting human faces prior resizing the images via https://github.com/esimov/pigo, which does not require to have OpenCV installed. 
 
-In a future release i'm planning to implement my own face detection library to minimize the dependency tree. Until then if you whish to avoid extra installation you can use the binary files from the [releases](https://github.com/esimov/caire/releases) folder, or brew formulae if you are a MacOS user, but in this case you will miss the face detection feature.
-
-**Notice:** gocv should be installed separately, otherwise you will get some OpenCV related errors! This is the reason why it was not included as dependency.
-
-Just to illustrate the differences between face detection applied and without face detection, it's clearly visible that with face detection activated the algorithm will avoid to crop pixels inside faces.
+The image below illustrates the application capabilities to detect human faces prior resizing. It's clearly visible from the image that with face detection activated the algorithm will avoid cropping pixels inside faces, retaining the face zone unaltered.
 
 | Original image | With face detection | Without face detection
 |:--:|:--:|:--:|
-| ![Original](https://user-images.githubusercontent.com/883386/37569642-0c5f49e8-2aee-11e8-8ac1-d096c0387ca0.jpg) | ![With Face Detection](https://user-images.githubusercontent.com/883386/37569645-1a6a3822-2aee-11e8-9f20-460ef0afe88d.png) | ![Without Face Detection](https://user-images.githubusercontent.com/883386/37569646-1a8b7410-2aee-11e8-84ff-3efad2c96da7.png) |
+| ![Original](https://user-images.githubusercontent.com/883386/37569642-0c5f49e8-2aee-11e8-8ac1-d096c0387ca0.jpg) | ![With Face Detection](https://user-images.githubusercontent.com/883386/41292871-6ca43280-6e5c-11e8-9d72-5b9a138228b6.jpg) | ![Without Face Detection](https://user-images.githubusercontent.com/883386/41292872-6cc90e8e-6e5c-11e8-8b41-5b4eb5042381.jpg) |
 
 [Sample image source](http://www.lens-rumors.com/wp-content/uploads/2014/12/EF-M-55-200mm-f4.5-6.3-IS-STM-sample.jpg)
 
@@ -82,6 +78,13 @@ $ brew install caire
 $ caire -in input.jpg -out output.jpg
 ```
 
+To detect faces prior rescaling use the `-face` flag and provide the face clasification binary file included in the `data` folder. The sample code below will rescale the provided image with 20% but will check for human faces prior rescaling.
+
+```bash
+$ caire -in input.jpg -out output.jpg -face=1 -cc="data/facefinder" -perc=1 -width=20
+```
+
+
 ### Supported commands:
 ```bash 
 $ caire --help
@@ -101,12 +104,12 @@ The following flags are supported:
 | `sobel` | 10 | Sobel filter threshold |
 | `debug` | false | Use debugger |
 | `face` | false | Use face detection |
-| `xml` | string | XML Classifier |
+| `cc` | string | Cascade classifier |
 
 In case you wish to scale down the image by a specific percentage, it can be used the `-perc` boolean flag. For example to reduce the image dimension by 20% both horizontally and vertically you can use the following command:
 
 ```bash
-caire -in input/source.jpg -out ./out.jpg -perc=1 -width=20 -height=20 -debug=false
+$ caire -in input/source.jpg -out ./out.jpg -perc=1 -width=20 -height=20 -debug=false
 ```
 
 Also the library supports the `-square` option. When this option is used the image will be resized to a squre, based on the shortest edge.
@@ -118,6 +121,11 @@ The CLI command can process all the images from a specific directory too.
 ```bash
 $ caire -in ./input-directory -out ./output-directory
 ```
+
+### Caire integrations
+- [x] Caire can be used as a servesless function via OpenFaaS: https://github.com/esimov/caire-openfaas
+- [ ] Integrate Caire into snap (https://snapcraft.io/)
+
 
 ## Sample images
 
