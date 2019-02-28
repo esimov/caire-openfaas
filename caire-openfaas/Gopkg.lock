@@ -4,14 +4,14 @@
 [[projects]]
   name = "github.com/esimov/caire"
   packages = ["."]
-  revision = "ef87c4e559e60433988610edfd16f7777473f11b"
-  version = "v1.1.0"
+  revision = "b8926a91cb592a6b3e2105bd87dd0fe6aae2b670"
+  version = "v1.2.0"
 
 [[projects]]
   name = "github.com/esimov/pigo"
   packages = ["core"]
-  revision = "4cd68d155558788f05f8f9810bbaceee0c836e0b"
-  version = "v1.0.3"
+  revision = "b8c07b835cabb54f6d1b101cc2fddd8cc2338fe7"
+  version = "v1.1.0"
 
 [[projects]]
   branch = "master"
@@ -34,6 +34,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "44eb349d3fdf7bd44170dad06e0c382ee2dd573b4cb8da0a82183b699c9a3a79"
+  inputs-digest = "b2f0ac2352488b16d247b49283513d6de41ac26dd2719e8357b0ee722aa09987"
   solver-name = "gps-cdcl"
   solver-version = 1
