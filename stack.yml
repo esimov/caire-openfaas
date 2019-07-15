@@ -6,7 +6,7 @@ functions:
   caire-image-resizer:
     lang: go
     handler: ./caire-openfaas
-    image: caire-openfaas:0.1
+    image: esimov/caire-image-resizer:0.1
     environment:
           input_mode: "url"
           output_mode: "image"
