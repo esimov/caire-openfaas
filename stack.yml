@@ -10,4 +10,4 @@ functions:
     environment:
           input_mode: "url"
           output_mode: "image"
-          write_timeout: 100s
+          write_timeout: 500s
